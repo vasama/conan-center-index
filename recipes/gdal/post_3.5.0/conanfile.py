@@ -1,7 +1,7 @@
 from conan import ConanFile
-from conan.tools.files import apply_conandata_patches, get, files
+from conan.tools.files import apply_conandata_patches, export_conandata_patches, get, files
 from conan.errors import ConanInvalidConfiguration
-from conans import CMake
+from conan.tools.cmake import CMake
 import functools
 import os
 
@@ -134,9 +134,7 @@ class GdalConan(ConanFile):
         return "build"
 
     def export_sources(self):
-        self.copy("CMakeLists.txt")
-        for patch in self.conan_data.get("patches", {}).get(self.version, []):
-            self.copy(patch["patch_file"])
+        export_conandata_patches(self)
 
     def config_options(self):
         if self.settings.os == "Windows":
