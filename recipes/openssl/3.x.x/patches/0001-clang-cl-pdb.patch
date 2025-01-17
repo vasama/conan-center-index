@@ -1,0 +1,47 @@
+--- a/Configurations/windows-makefile.tmpl
++++ b/Configurations/windows-makefile.tmpl
+@@ -564,7 +564,7 @@ install_dev: install_runtime_libs
+ 				       "$(INSTALLTOP)\include\openssl"
+ 	@"$(PERL)" "$(SRCDIR)\util\mkdir-p.pl" "$(libdir)"
+ 	@"$(PERL)" "$(SRCDIR)\util\copy.pl" $(INSTALL_LIBS) "$(libdir)"
+-	@if "$(SHLIBS)"=="" \
++	@if "$(SHLIBS)"=="" if not $(CC)=="clang-cl" \
+ 	 "$(PERL)" "$(SRCDIR)\util\copy.pl" ossl_static.pdb "$(libdir)"
+ 	@"$(PERL)" "$(SRCDIR)\util\mkdir-p.pl" "$(CMAKECONFIGDIR)"
+ 	@"$(PERL)" "$(SRCDIR)\util\copy.pl" $(INSTALL_EXPORTERS_CMAKE) "$(CMAKECONFIGDIR)"
+@@ -579,7 +579,7 @@ install_engines: _install_modules_deps
+ 	@"$(PERL)" "$(SRCDIR)\util\mkdir-p.pl" "$(ENGINESDIR)"
+ 	@if not "$(INSTALL_ENGINES)"=="" \
+ 	 "$(PERL)" "$(SRCDIR)\util\copy.pl" $(INSTALL_ENGINES) "$(ENGINESDIR)"
+-	@if not "$(INSTALL_ENGINES)"=="" \
++	@if not "$(INSTALL_ENGINES)"=="" if not $(CC)=="clang-cl" \
+ 	 "$(PERL)" "$(SRCDIR)\util\copy.pl" $(INSTALL_ENGINEPDBS) "$(ENGINESDIR)"
+ 
+ uninstall_engines:
+@@ -590,7 +590,7 @@ install_modules: _install_modules_deps
+ 	@"$(PERL)" "$(SRCDIR)\util\mkdir-p.pl" "$(MODULESDIR)"
+ 	@if not "$(INSTALL_MODULES)"=="" \
+ 	 "$(PERL)" "$(SRCDIR)\util\copy.pl" $(INSTALL_MODULES) "$(MODULESDIR)"
+-	@if not "$(INSTALL_MODULES)"=="" \
++	@if not "$(INSTALL_MODULES)"=="" if not $(CC)=="clang-cl" \
+ 	 "$(PERL)" "$(SRCDIR)\util\copy.pl" $(INSTALL_MODULEPDBS) "$(MODULESDIR)"
+ 
+ uninstall_modules:
+@@ -603,7 +603,7 @@ install_runtime_libs: build_libs
+ 	@"$(PERL)" "$(SRCDIR)\util\mkdir-p.pl" "$(INSTALLTOP)\bin"
+ 	@if not "$(SHLIBS)"=="" \
+ 	 "$(PERL)" "$(SRCDIR)\util\copy.pl" $(INSTALL_SHLIBS) "$(INSTALLTOP)\bin"
+-	@if not "$(SHLIBS)"=="" \
++	@if not "$(SHLIBS)"=="" if not $(CC)=="clang-cl" \
+ 	 "$(PERL)" "$(SRCDIR)\util\copy.pl" $(INSTALL_SHLIBPDBS) \
+                                         "$(INSTALLTOP)\bin"
+ 
+@@ -615,7 +615,7 @@ install_programs: install_runtime_libs build_programs
+ 	@if not "$(INSTALL_PROGRAMS)"=="" \
+ 	 "$(PERL)" "$(SRCDIR)\util\copy.pl" $(INSTALL_PROGRAMS) \
+                                         "$(INSTALLTOP)\bin"
+-	@if not "$(INSTALL_PROGRAMS)"=="" \
++	@if not "$(INSTALL_PROGRAMS)"=="" if not $(CC)=="clang-cl" \
+ 	 "$(PERL)" "$(SRCDIR)\util\copy.pl" $(INSTALL_PROGRAMPDBS) \
+                                         "$(INSTALLTOP)\bin"
+ 	@if not "$(INSTALL_PROGRAMS)"=="" \
